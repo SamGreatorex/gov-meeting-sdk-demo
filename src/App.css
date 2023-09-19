@@ -36,3 +36,16 @@
     transform: rotate(360deg);
   }
 }
+
+
+/* .layout {
+  background-image: url("images/Omzo_Background.png");
+} */
+/* .demo_logo {
+  background-image: url("images/Omzo_Logo.png");
+} */
+
+.site-layout-content {
+  background-color: Pink;
+  height: 100vh;
+}
