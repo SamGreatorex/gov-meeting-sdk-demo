@@ -4,12 +4,14 @@ import "./styles/nicepage.css";
 import OmzoLogo from "./images/Omzo_Logo.png";
 import GBFlag from "./images/uk.png";
 import ARFlag from "./images/dubai.png";
-import { Select } from "antd";
+import { Select, Button, Modal, Form, Input } from "antd";
 import "./i18n/config";
 import { useTranslation } from "react-i18next";
 
-function App({ Props }) {
+function App() {
   const { t, i18n } = useTranslation();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [form] = Form.useForm();
 
   // Handle language selection
   const handleLanguageChange = (value) => {
@@ -18,18 +20,33 @@ function App({ Props }) {
     i18n.changeLanguage(value);
   };
 
+  const handleJoinMeeting = async () => {
+    console.log("Joining Meeting");
+  };
+
+  const showModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleOk = (items) => {
+    setIsModalOpen(false);
+    sessionStorage.setItem("webinarId", items.webinarId);
+    sessionStorage.setItem("webinarPasscode", items.webinarpc);
+    console.log("items", items);
+  };
+
+  const handleCancel = () => {
+    setIsModalOpen(false);
+    form.resetFields();
+  };
+
   return (
     <div>
       <header className="u-clearfix u-header u-header" id="sec-cede">
         <div className="u-clearfix u-sheet u-valign-middle u-sheet-1">
-          <a
-            href="https://nicepage.com"
-            className="u-image u-logo u-image-1"
-            data-image-width={150}
-            data-image-height={133}
-          >
+          <div className="u-image u-logo u-image-1">
             <img src={OmzoLogo} className="u-logo-image u-logo-image-1" />
-          </a>
+          </div>
           <h1 className="u-text u-text-default u-title u-text-1">
             <span style={{ fontWeight: 700 }}>{t("header")}</span>.
           </h1>
@@ -80,7 +97,7 @@ function App({ Props }) {
                 <br />
               </p>
               <a
-                href="https://nicepage.site"
+                onClick={() => handleJoinMeeting()}
                 className="u-active-white u-align-center u-border-2 u-border-active-white u-border-hover-white u-border-white u-btn u-btn-round u-button-style u-custom-font u-font-pt-sans u-hover-white u-palette-1-base u-radius-50 u-text-active-palette-1-base u-text-hover-palette-1-base u-btn-1"
               >
                 {t("webinar-join-btn")}
@@ -88,6 +105,7 @@ function App({ Props }) {
             </div>
           </div>
         </div>
+        <div id="meetingSDKElement" />
       </section>
       <section className="u-clearfix u-white u-section-2" id="carousel_c752">
         <div className="u-clearfix u-sheet u-valign-middle u-sheet-1">
@@ -162,7 +180,6 @@ function App({ Props }) {
               >
                 <div className="u-container-layout u-similar-container u-valign-top u-container-layout-1">
                   <h4 className="u-align-left u-text u-text-2">
-                    {" "}
                     {t("cchange-title")}
                   </h4>
                   <p className="u-align-left u-text u-text-3">
@@ -275,10 +292,103 @@ function App({ Props }) {
           <p className="u-small-text u-text u-text-variant u-text-1">
             {t("contact-here")}
           </p>
+          <Button type="primary" onClick={showModal}>
+            Open Modal
+          </Button>
+          <Modal
+            open={isModalOpen}
+            title="Set Webinar Details"
+            okText="Create"
+            cancelText="Cancel"
+            onCancel={handleCancel}
+            onOk={() => {
+              form
+                .validateFields()
+                .then((values) => {
+                  form.resetFields();
+                  handleOk(values);
+                })
+                .catch((info) => {
+                  console.log("Validate Failed:", info);
+                });
+            }}
+          >
+            <Form
+              form={form}
+              layout="vertical"
+              name="form_in_modal"
+              initialValues={{
+                modifier: "public",
+              }}
+            >
+              <Form.Item
+                name="webinarId"
+                label="Webinar ID"
+                rules={[
+                  {
+                    required: true,
+                    message: "Please input the webinar ID!",
+                  },
+                ]}
+              >
+                <Input />
+              </Form.Item>
+              <Form.Item
+                name="webinarpc"
+                label="Webinar Passcode"
+                rules={[
+                  {
+                    required: true,
+                    message: "Please input the webinar Passcode!",
+                  },
+                ]}
+              >
+                <Input />
+              </Form.Item>
+              <Form.Item
+                name="username"
+                label="Authentication Username"
+                rules={[
+                  {
+                    validator: (_, value) => {
+                      if (value === "Admin") {
+                        return Promise.resolve();
+                      } else {
+                        return Promise.reject(
+                          "Please input a valid username to authenticate the settings"
+                        );
+                      }
+                    },
+                  },
+                ]}
+              >
+                <Input />
+              </Form.Item>
+
+              <Form.Item
+                name="password"
+                label="Authentication Password"
+                rules={[
+                  {
+                    validator: (_, value) => {
+                      if (value === "Gitex23!") {
+                        return Promise.resolve();
+                      } else {
+                        return Promise.reject(
+                          "Please input a valid password to authenticate the settings"
+                        );
+                      }
+                    },
+                  },
+                ]}
+              >
+                <Input />
+              </Form.Item>
+            </Form>
+          </Modal>
         </div>
       </footer>
     </div>
   );
 }
-
 export default App;
