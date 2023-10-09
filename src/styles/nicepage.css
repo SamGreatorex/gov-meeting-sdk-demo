@@ -41577,3 +41577,6 @@ a.u-link.u-text-hover-grey-90:hover {
   margin-right: 8px; /* Adjust the spacing between flag and label as needed */
 }
 
+body > iframe {
+  display: none;
+}

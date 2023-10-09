@@ -1,201 +1,44 @@
-import react, { useState, useEffect } from "react";
-import axios from "axios";
-import "./styles/Home.css";
-import "./styles/nicepage.css";
-import OmzoLogo from "./images/Omzo_Logo.png";
-import GBFlag from "./images/uk.png";
-import ARFlag from "./images/dubai.png";
-import { Select, Button, Modal, Form, Input, Row } from "antd";
-import "./i18n/config";
-import { useTranslation } from "react-i18next";
-import ZoomMtgEmbedded from "@zoomus/websdk/embedded";
-import KJUR from "jsrsasign";
+import { useState } from "react";
+import "../styles/Home.css";
+import "../styles/nicepage.css";
+import { Form } from "antd";
 
-function App() {
-  const { t, i18n } = useTranslation();
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [meetingJoining, setMeetingJoining] = useState(false);
-  const [form] = Form.useForm();
-
-  const client = ZoomMtgEmbedded.createClient();
-
-  const url = "http://localhost:4000/prod";
-  const meetingId = "99838255036";
-  const passcode = "903460";
-  const sdkKey = "hDaBMwHB5VuODMbh4sC2JZXZLgJ0vkOFyldm";
-  const sdkSecret = "WWplVFyWM5cKkPHv7dbyqGen3TwSLHphppPx";
-  const userId = "Annonymous User";
-
-  useEffect(() => {
-    initialize();
-  }, []);
-
-  const initialize = async () => {
-    let meetingSDKElement = document.getElementById("meetingSDKElement");
-
-    client
-      .init({
-        zoomAppRoot: meetingSDKElement,
-        language: "en-US",
-        customize: {
-          video: {
-            popper: {
-              disableDraggable: true,
-            },
-            viewSizes: {
-              default: {
-                width: 800,
-                height: 600,
-              },
-            },
-          },
-        },
-      })
-      .then((data) => {
-        console.log(data);
-      });
-
-    setInterval(function () {
-      checkMeetingStatus();
-    }, 3000);
-  };
-  // Handle language selection
-  const handleLanguageChange = (value) => {
-    // Implement your logic for changing the language here
-    console.log(`Selected language: ${value}`);
-    i18n.changeLanguage(value);
-  };
-
-  const showModal = () => {
-    setIsModalOpen(true);
-  };
-
-  const handleOk = (items) => {
-    setIsModalOpen(false);
-    sessionStorage.setItem("webinarId", items.webinarId);
-    sessionStorage.setItem("webinarPasscode", items.webinarpc);
-    console.log("items", items);
-  };
-
-  const handleCancel = () => {
-    setIsModalOpen(false);
-    form.resetFields();
-  };
-
-  async function handleJoinMeeting(e) {
-    console.log("Joining Meeting");
-    e.preventDefault();
-
-    const data = {
-      accountId: "zoomineer-tsa-demo-app-meeting-sdk",
-      meetingId: meetingId,
-      role: 0,
-      userId: userId,
-    };
-    const signature = await getSignature();
-    startMeeting(signature);
-  }
-
-  function startMeeting(signature) {
-    try {
-      client
-        .join({
-          signature: signature,
-          sdkKey: sdkKey,
-          meetingNumber: meetingId,
-          password: passcode,
-          userName: "samantha.greatorex@zoom.us",
-        })
-        .then((data) => {
-          console.log(data);
-        })
-        .catch((error) => {
-          console.log("Error", error);
-        });
-    } catch (error) {
-      console.log("Error Joining meeting", error);
-    }
-  }
-
-  const checkMeetingStatus = () => {
-    const status = client.getCurrentMeetingInfo();
-    setMeetingJoining(status.meetingNumber !== 0);
-  };
-
-  const getSignature = async () => {
-    const iat = Math.round(new Date().getTime() / 1000) - 30;
-    const exp = iat + 60 * 60 * 2;
-    const oHeader = { alg: "HS256", typ: "JWT" };
-
-    const oPayload = {
-      sdkKey: sdkKey,
-      appKey: sdkKey,
-      mn: meetingId,
-      role: 0,
-      iat: iat,
-      exp: exp,
-      tokenExp: exp,
-    };
-
-    const sHeader = JSON.stringify(oHeader);
-    const sPayload = JSON.stringify(oPayload);
-    const sdkJWT = KJUR.jws.JWS.sign("HS256", sHeader, sPayload, sdkSecret);
-
-    console.log("Returning", sdkJWT);
-    return sdkJWT;
-  };
-
+function Home({ t, handleJoinMeeting }) {
   return (
     <div>
-      <header className="u-clearfix u-header u-header" id="sec-cede">
-        <div className="u-clearfix u-sheet u-valign-middle u-sheet-1">
-          <div className="u-image u-logo u-image-1">
-            <img src={OmzoLogo} className="u-logo-image u-logo-image-1" />
-          </div>
-          <h1 className="u-text u-text-default u-title u-text-1">
-            <span style={{ fontWeight: 700 }}>{t("header")}</span>.
-          </h1>
-
-          <div className="u-btn-1">
-            <Select
-              defaultValue="en" // Set the default language value
-              style={{ width: 120 }} // Adjust the width as needed
-              onChange={handleLanguageChange} // Handle language change event
-            >
-              <Select.Option key="en" value="en" defaultValue>
-                <div className="language-option">
-                  <img src={GBFlag} alt="English" className="language-flag" />{" "}
-                  {t("language-en")}
-                </div>
-              </Select.Option>
-
-              <Select.Option key="ar" value="ar">
-                <div className="language-option">
-                  <img src={ARFlag} alt="Arabic" className="language-flag" />{" "}
-                  {t("language-ar")}
-                </div>
-              </Select.Option>
-            </Select>
+      <section
+        className="u-align-left u-clearfix u-container-align-left-lg u-container-align-left-xl u-image u-section-1"
+        id="sec-44f4"
+        data-image-width={1920}
+        data-image-height={1100}
+      >
+        <div className="u-clearfix u-sheet u-valign-middle-lg u-valign-middle-sm u-valign-middle-xl u-sheet-1">
+          <div
+            className="u-container-align-center u-container-style u-group u-palette-1-base u-preserve-proportions u-shape-circle u-group-1"
+            data-animation-name="customAnimationIn"
+            data-animation-duration={1500}
+          >
+            <div className="u-container-layout u-valign-middle u-container-layout-1">
+              <h2 className="u-align-center u-text u-text-body-alt-color u-text-1">
+                {t("webinar-title")}
+              </h2>
+              <p className="u-align-center u-text u-text-2">
+                {t("webinar-desc")}
+                &nbsp;
+                <br />
+                <br />
+              </p>
+              <a
+                onClick={() => handleJoinMeeting()}
+                className="u-active-white u-align-center u-border-2 u-border-active-white u-border-hover-white u-border-white u-btn u-btn-round u-button-style u-custom-font u-font-pt-sans u-hover-white u-palette-1-base u-radius-50 u-text-active-palette-1-base u-text-hover-palette-1-base u-btn-1"
+              >
+                {t("webinar-join-btn")}
+              </a>
+            </div>
           </div>
         </div>
-      </header>
-      <Row className="u-section-1">
-        {/* Circle Image */}
-        {!meetingJoining && (
-          <div className="u-circle-shape">
-            <div className="u-text-1">{t("webinar-title")}</div>
-            <p className="u-text-1">{t("webinar-desc")}</p>
-            <a
-              onClick={handleJoinMeeting}
-              className="u-border-2 u-border-white   u-hover-white u-palette-1-base u-radius-50 u-text-active-palette-1-base u-text-hover-palette-1-base u-btn-1"
-            >
-              {t("webinar-join-btn")}
-            </a>
-          </div>
-        )}
-        <div id="meetingSDKElement"></div>
-      </Row>
-
+        <div id="meetingSDKElement" />
+      </section>
       <section className="u-clearfix u-white u-section-2" id="carousel_c752">
         <div className="u-clearfix u-sheet u-valign-middle u-sheet-1">
           <div className="data-layout-selected u-clearfix u-expanded-width u-layout-wrap u-layout-wrap-1">
@@ -373,111 +216,7 @@ function App() {
           </div>
         </div>
       </section>
-      <footer
-        className="u-align-center u-clearfix u-footer u-grey-80 u-footer"
-        id="sec-d9e6"
-      >
-        <div className="u-clearfix u-sheet u-sheet-1">
-          <p className="u-small-text u-text u-text-variant u-text-1">
-            {t("contact-here")}
-          </p>
-          <Button type="primary" onClick={showModal}>
-            Open Modal
-          </Button>
-          <Modal
-            open={isModalOpen}
-            title="Set Webinar Details"
-            okText="Create"
-            cancelText="Cancel"
-            onCancel={handleCancel}
-            onOk={() => {
-              form
-                .validateFields()
-                .then((values) => {
-                  form.resetFields();
-                  handleOk(values);
-                })
-                .catch((info) => {
-                  console.log("Validate Failed:", info);
-                });
-            }}
-          >
-            <Form
-              form={form}
-              layout="vertical"
-              name="form_in_modal"
-              initialValues={{
-                modifier: "public",
-              }}
-            >
-              <Form.Item
-                name="webinarId"
-                label="Webinar ID"
-                rules={[
-                  {
-                    required: true,
-                    message: "Please input the webinar ID!",
-                  },
-                ]}
-              >
-                <Input />
-              </Form.Item>
-              <Form.Item
-                name="webinarpc"
-                label="Webinar Passcode"
-                rules={[
-                  {
-                    required: true,
-                    message: "Please input the webinar Passcode!",
-                  },
-                ]}
-              >
-                <Input />
-              </Form.Item>
-              <Form.Item
-                name="username"
-                label="Authentication Username"
-                rules={[
-                  {
-                    validator: (_, value) => {
-                      if (value === "Admin") {
-                        return Promise.resolve();
-                      } else {
-                        return Promise.reject(
-                          "Please input a valid username to authenticate the settings"
-                        );
-                      }
-                    },
-                  },
-                ]}
-              >
-                <Input />
-              </Form.Item>
-
-              <Form.Item
-                name="password"
-                label="Authentication Password"
-                rules={[
-                  {
-                    validator: (_, value) => {
-                      if (value === "Gitex23!") {
-                        return Promise.resolve();
-                      } else {
-                        return Promise.reject(
-                          "Please input a valid password to authenticate the settings"
-                        );
-                      }
-                    },
-                  },
-                ]}
-              >
-                <Input />
-              </Form.Item>
-            </Form>
-          </Modal>
-        </div>
-      </footer>
     </div>
   );
 }
-export default App;
+export default Home;

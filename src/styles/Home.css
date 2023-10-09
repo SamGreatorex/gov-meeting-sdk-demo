@@ -1,11 +1,55 @@
+ /* Home Page Styles */
  .u-section-1 {
   background-image: url("../images/sustain_image.jpg");
   background-position: 50% 50%;
+  min-height: 825px;
+  position: relative;
+  margin: 0 auto;
+  padding-left: 35%;
 }
 
-.u-section-1 .u-sheet-1 {
-  min-height: 825px;
+.u-circle-shape {
+  border-radius: 50%;
+  display: flex;
+  color: #ffffff;
+  background-color: #1b356a;
+  width: 495px;
+  height: 495px;
+  margin-top: 15%; 
+  margin-left: 3%;
+  flex-direction: column;
+  padding-top: 90px;
+  text-align: center;
 }
+
+.u-text-1 {
+  font-weight: 700;
+  font-size: 3rem;
+  width: 349px;
+  margin: 0 auto;
+}
+.u-button {
+
+  stroke-width: 2px;
+  border-width: 0 0 2px 0;
+}
+
+.h-text-1 {
+  font-weight: 700;
+  font-size: 3rem;
+  width: 349px;
+  margin: 0 auto;
+}
+
+#meetingSDKElement {
+  margin-top: 50px;
+padding-left: 0px;
+margin-left: 0px;
+display: flex;
+  width: 244px; 
+}
+
+
 
 .u-section-1 .u-group-1 {
   width: 607px;
@@ -22,12 +66,7 @@
   padding: 30px;
 }
 
-.u-section-1 .u-text-1 {
-  font-weight: 700;
-  font-size: 3rem;
-  width: 349px;
-  margin: 0 auto;
-}
+
 
 .u-section-1 .u-text-2 {
   font-size: 1.125rem;

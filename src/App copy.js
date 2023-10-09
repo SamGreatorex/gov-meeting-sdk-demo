@@ -1,15 +1,13 @@
-import react, { useState, useEffect } from "react";
-import axios from "axios";
+import react, { useState } from "react";
 import "./styles/Home.css";
 import "./styles/nicepage.css";
 import OmzoLogo from "./images/Omzo_Logo.png";
 import GBFlag from "./images/uk.png";
 import ARFlag from "./images/dubai.png";
-import { Select, Button, Modal, Form, Input, Row } from "antd";
+import { Select, Button, Modal, Form, Input } from "antd";
 import "./i18n/config";
 import { useTranslation } from "react-i18next";
 import ZoomMtgEmbedded from "@zoomus/websdk/embedded";
-import KJUR from "jsrsasign";
 
 function App() {
   const { t, i18n } = useTranslation();
@@ -18,52 +16,20 @@ function App() {
   const [form] = Form.useForm();
 
   const client = ZoomMtgEmbedded.createClient();
+  const url = "https://gwy4q3bd6h.execute-api.eu-west-2.amazonaws.com/prod";
+  const meetingId = "98872107337";
+  const passcode = "824218";
+  const sdkKey = "Y29Df94ZGf4xYT6pqurnf2mFL4I9xuIsqtQF";
 
-  const url = "http://localhost:4000/prod";
-  const meetingId = "99838255036";
-  const passcode = "903460";
-  const sdkKey = "hDaBMwHB5VuODMbh4sC2JZXZLgJ0vkOFyldm";
-  const sdkSecret = "WWplVFyWM5cKkPHv7dbyqGen3TwSLHphppPx";
-  const userId = "Annonymous User";
-
-  useEffect(() => {
-    initialize();
-  }, []);
-
-  const initialize = async () => {
-    let meetingSDKElement = document.getElementById("meetingSDKElement");
-
-    client
-      .init({
-        zoomAppRoot: meetingSDKElement,
-        language: "en-US",
-        customize: {
-          video: {
-            popper: {
-              disableDraggable: true,
-            },
-            viewSizes: {
-              default: {
-                width: 800,
-                height: 600,
-              },
-            },
-          },
-        },
-      })
-      .then((data) => {
-        console.log(data);
-      });
-
-    setInterval(function () {
-      checkMeetingStatus();
-    }, 3000);
-  };
   // Handle language selection
   const handleLanguageChange = (value) => {
     // Implement your logic for changing the language here
     console.log(`Selected language: ${value}`);
     i18n.changeLanguage(value);
+  };
+
+  const handleJoinMeeting = async () => {
+    console.log("Joining Meeting");
   };
 
   const showModal = () => {
@@ -82,68 +48,65 @@ function App() {
     form.resetFields();
   };
 
-  async function handleJoinMeeting(e) {
-    console.log("Joining Meeting");
+  function getSignature(e) {
     e.preventDefault();
 
-    const data = {
-      accountId: "zoomineer-tsa-demo-app-meeting-sdk",
-      meetingId: meetingId,
-      role: 0,
-      userId: userId,
-    };
-    const signature = await getSignature();
-    startMeeting(signature);
+    fetch(`${url}/meetings/getSignature?meetingid=${meetingId}&role=0`, {
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+    })
+      .then((res) => res.json())
+      .then((response) => {
+        startMeeting(response.signature);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   }
 
   function startMeeting(signature) {
-    try {
-      client
-        .join({
-          signature: signature,
-          sdkKey: sdkKey,
-          meetingNumber: meetingId,
-          password: passcode,
-          userName: "samantha.greatorex@zoom.us",
-        })
-        .then((data) => {
-          console.log(data);
-        })
-        .catch((error) => {
-          console.log("Error", error);
-        });
-    } catch (error) {
-      console.log("Error Joining meeting", error);
-    }
-  }
+    let meetingSDKElement = document.getElementById("meetingSDKElement");
 
-  const checkMeetingStatus = () => {
-    const status = client.getCurrentMeetingInfo();
-    setMeetingJoining(status.meetingNumber !== 0);
-  };
+    client.init({
+      debug: true,
+      zoomAppRoot: meetingSDKElement,
+      language: "en-US",
+      customize: {
+        meetingInfo: [
+          "topic",
+          "host",
+          "mn",
+          "pwd",
+          "telPwd",
+          "invite",
+          "participant",
+          "dc",
+          "enctype",
+        ],
+        toolbar: {
+          buttons: [
+            {
+              text: "Custom Button",
+              className: "CustomButton",
+              onClick: () => {
+                console.log("custom button");
+              },
+            },
+          ],
+        },
+      },
+    });
 
-  const getSignature = async () => {
-    const iat = Math.round(new Date().getTime() / 1000) - 30;
-    const exp = iat + 60 * 60 * 2;
-    const oHeader = { alg: "HS256", typ: "JWT" };
-
-    const oPayload = {
+    client.join({
+      signature: signature,
       sdkKey: sdkKey,
-      appKey: sdkKey,
-      mn: meetingId,
-      role: 0,
-      iat: iat,
-      exp: exp,
-      tokenExp: exp,
-    };
-
-    const sHeader = JSON.stringify(oHeader);
-    const sPayload = JSON.stringify(oPayload);
-    const sdkJWT = KJUR.jws.JWS.sign("HS256", sHeader, sPayload, sdkSecret);
-
-    console.log("Returning", sdkJWT);
-    return sdkJWT;
-  };
+      meetingNumber: meetingId,
+      password: passcode,
+      userName: "Annonymous User",
+      userEmail: "samantha.greatorex@zoom.us",
+      tk: "",
+    });
+  }
 
   return (
     <div>
@@ -179,23 +142,38 @@ function App() {
           </div>
         </div>
       </header>
-      <Row className="u-section-1">
-        {/* Circle Image */}
-        {!meetingJoining && (
-          <div className="u-circle-shape">
-            <div className="u-text-1">{t("webinar-title")}</div>
-            <p className="u-text-1">{t("webinar-desc")}</p>
-            <a
-              onClick={handleJoinMeeting}
-              className="u-border-2 u-border-white   u-hover-white u-palette-1-base u-radius-50 u-text-active-palette-1-base u-text-hover-palette-1-base u-btn-1"
-            >
-              {t("webinar-join-btn")}
-            </a>
+      <section
+        className="u-align-left u-clearfix u-container-align-left-lg u-container-align-left-xl u-image u-section-1"
+        id="sec-44f4"
+        data-image-width={1920}
+        data-image-height={1100}
+      >
+        <div className="u-clearfix u-sheet u-valign-middle-lg u-valign-middle-sm u-valign-middle-xl u-sheet-1">
+          <div
+            className="u-container-align-center u-container-style u-group u-palette-1-base u-preserve-proportions u-shape-circle u-group-1"
+            data-animation-name="customAnimationIn"
+            data-animation-duration={1500}
+          >
+            <div className="u-container-layout u-valign-middle u-container-layout-1">
+              <h2 className="u-align-center u-text u-text-body-alt-color u-text-1">
+                {t("webinar-title")}
+              </h2>
+              <p className="u-align-center u-text u-text-2">
+                {t("webinar-desc")}
+                &nbsp;
+                <br />
+                <br />
+              </p>
+              <a
+                onClick={() => handleJoinMeeting()}
+                className="u-active-white u-align-center u-border-2 u-border-active-white u-border-hover-white u-border-white u-btn u-btn-round u-button-style u-custom-font u-font-pt-sans u-hover-white u-palette-1-base u-radius-50 u-text-active-palette-1-base u-text-hover-palette-1-base u-btn-1"
+              >
+                {t("webinar-join-btn")}
+              </a>
+            </div>
           </div>
-        )}
-        <div id="meetingSDKElement"></div>
-      </Row>
-
+        </div>
+      </section>
       <section className="u-clearfix u-white u-section-2" id="carousel_c752">
         <div className="u-clearfix u-sheet u-valign-middle u-sheet-1">
           <div className="data-layout-selected u-clearfix u-expanded-width u-layout-wrap u-layout-wrap-1">
