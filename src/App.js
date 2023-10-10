@@ -18,11 +18,12 @@ function App() {
   const [form] = Form.useForm();
 
   const client = ZoomMtgEmbedded.createClient();
-  const sdkKey = "jd9B5lQvQByHURh60OihTQ";
-  const sdkSecret = "7th4QfNfmiEL0EG1T6orjekhAAfEfplL";
+  const sdkKey = process.env.REACT_APP_SDK_KEY;
+  const sdkSecret = process.env.REACT_APP_SDK_SECRET;
   const userId = "Annonymous User";
   let meetingId = "";
   let passcode = "";
+
   useEffect(() => {
     initialize();
   }, []);
