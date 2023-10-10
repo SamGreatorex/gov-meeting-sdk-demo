@@ -18,14 +18,11 @@ function App() {
   const [form] = Form.useForm();
 
   const client = ZoomMtgEmbedded.createClient();
-
-  const url = "http://localhost:4000/prod";
-  const meetingId = "99838255036";
-  const passcode = "903460";
-  const sdkKey = "hDaBMwHB5VuODMbh4sC2JZXZLgJ0vkOFyldm";
-  const sdkSecret = "WWplVFyWM5cKkPHv7dbyqGen3TwSLHphppPx";
+  const sdkKey = "jd9B5lQvQByHURh60OihTQ";
+  const sdkSecret = "7th4QfNfmiEL0EG1T6orjekhAAfEfplL";
   const userId = "Annonymous User";
-
+  let meetingId = "";
+  let passcode = "";
   useEffect(() => {
     initialize();
   }, []);
@@ -85,6 +82,8 @@ function App() {
   async function handleJoinMeeting(e) {
     console.log("Joining Meeting");
     e.preventDefault();
+    meetingId = sessionStorage.getItem("webinarId");
+    passcode = sessionStorage.getItem("webinarPasscode");
 
     const data = {
       accountId: "zoomineer-tsa-demo-app-meeting-sdk",
@@ -104,7 +103,8 @@ function App() {
           sdkKey: sdkKey,
           meetingNumber: meetingId,
           password: passcode,
-          userName: "samantha.greatorex@zoom.us",
+          userName: "demo.user@zoom.us",
+          userEmail: "demo.user@zoom.us",
         })
         .then((data) => {
           console.log(data);
@@ -153,26 +153,24 @@ function App() {
             <img src={OmzoLogo} className="u-logo-image u-logo-image-1" />
           </div>
           <h1 className="u-text u-text-default u-title u-text-1">
-            <span style={{ fontWeight: 700 }}>{t("header")}</span>.
+            <span style={{ fontWeight: 700 }}>{t("header")}</span>
           </h1>
 
           <div className="u-btn-1">
             <Select
               defaultValue="en" // Set the default language value
-              style={{ width: 120 }} // Adjust the width as needed
+              style={{ width: 70 }} // Adjust the width as needed
               onChange={handleLanguageChange} // Handle language change event
             >
               <Select.Option key="en" value="en" defaultValue>
                 <div className="language-option">
-                  <img src={GBFlag} alt="English" className="language-flag" />{" "}
-                  {t("language-en")}
+                  <img src={GBFlag} alt="English" className="language-flag" />
                 </div>
               </Select.Option>
 
               <Select.Option key="ar" value="ar">
                 <div className="language-option">
-                  <img src={ARFlag} alt="Arabic" className="language-flag" />{" "}
-                  {t("language-ar")}
+                  <img src={ARFlag} alt="Arabic" className="language-flag" />
                 </div>
               </Select.Option>
             </Select>
@@ -232,10 +230,11 @@ function App() {
                       {t("sustain-description")}
                     </p>
                     <a
-                      href="https://nicepage.app"
+                      href="https://events.zoom.us/ev/AvgH7bgTtXqGcJfvQWQwwj9QqlXOHcC5S7w0BAartNfFy_RvM94z~At-bl0qXx6NEkin4szeejAkDraSd-3UJ32XnoSO886YDQ4GZgpcUCbvh_A"
+                      target="blank"
                       className="u-active-palette-1-base u-align-left u-border-2 u-border-active-palette-1-base u-border-hover-palette-1-base u-border-palette-1-base u-btn u-btn-round u-button-style u-hover-palette-1-base u-none u-radius-50 u-text-active-white u-text-hover-white u-btn-1"
                     >
-                      {t("read-more-btn")}
+                      {t("register-now-btn")}
                     </a>
                   </div>
                 </div>
