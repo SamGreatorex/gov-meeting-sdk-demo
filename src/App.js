@@ -81,7 +81,7 @@ function App() {
   };
 
   async function handleJoinMeeting(e) {
-    console.log("Joining Meeting");
+    console.log("Joining Meeting", sdkKey, sdkSecret);
     e.preventDefault();
     meetingId = sessionStorage.getItem("webinarId");
     passcode = sessionStorage.getItem("webinarPasscode");
