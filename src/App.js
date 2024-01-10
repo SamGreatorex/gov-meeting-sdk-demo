@@ -223,7 +223,7 @@ function App() {
                   <div className="u-container-layout u-valign-top u-container-layout-2">
                     <p className="u-align-left u-text u-text-default u-text-2">{t("sustain-description")}</p>
                     <a
-                      href="https://events.zoom.us/ev/AvgH7bgTtXqGcJfvQWQwwj9QqlXOHcC5S7w0BAartNfFy_RvM94z~At-bl0qXx6NEkin4szeejAkDraSd-3UJ32XnoSO886YDQ4GZgpcUCbvh_A"
+                      href="https://events.zoom.us/ev/Ar-FITQfhJ_n3IblupsGuBZCd_jF1cumEV4n-fB2bnCDTLpSRhUE~AovXEp_tjv5RdIqZCI_XrXdNjlLA1O7gRFx6_239WiIxJCZ-_VdVvHFLAg"
                       target="blank"
                       className="u-active-palette-1-base u-align-left u-border-2 u-border-active-palette-1-base u-border-hover-palette-1-base u-border-palette-1-base u-btn u-btn-round u-button-style u-hover-palette-1-base u-none u-radius-50 u-text-active-white u-text-hover-white u-btn-1"
                     >
