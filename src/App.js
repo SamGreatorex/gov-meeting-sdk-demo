@@ -184,10 +184,7 @@ function App() {
           <div className="u-circle-shape">
             <div className="u-text-1">{t("webinar-title")}</div>
             <p className="u-text-1">{t("webinar-desc")}</p>
-            <a
-              onClick={handleJoinMeeting}
-              className="u-border-2 u-border-white   u-hover-white u-palette-1-base u-radius-50 u-text-active-palette-1-base u-text-hover-palette-1-base u-btn-1"
-            >
+            <a onClick={handleJoinMeeting} className="u-border-2 u-border-white   u-hover-white u-palette-1-base u-radius-50 u-text-active-palette-1-base u-text-hover-palette-1-base u-btn-1">
               {t("webinar-join-btn")}
             </a>
           </div>
@@ -207,10 +204,7 @@ function App() {
                   data-animation-delay={250}
                 >
                   <div className="u-container-layout u-valign-top u-container-layout-1">
-                    <h3 className="u-align-left u-text u-text-1">
-                      {" "}
-                      {t("sustain-title")}
-                    </h3>
+                    <h3 className="u-align-left u-text u-text-1"> {t("sustain-title")}</h3>
                     <div
                       className="u-palette-1-base u-shape u-shape-circle u-shape-1"
                       data-animation-name="customAnimationIn"
@@ -227,9 +221,7 @@ function App() {
                   data-animation-delay={500}
                 >
                   <div className="u-container-layout u-valign-top u-container-layout-2">
-                    <p className="u-align-left u-text u-text-default u-text-2">
-                      {t("sustain-description")}
-                    </p>
+                    <p className="u-align-left u-text u-text-default u-text-2">{t("sustain-description")}</p>
                     <a
                       href="https://events.zoom.us/ev/AvgH7bgTtXqGcJfvQWQwwj9QqlXOHcC5S7w0BAartNfFy_RvM94z~At-bl0qXx6NEkin4szeejAkDraSd-3UJ32XnoSO886YDQ4GZgpcUCbvh_A"
                       target="blank"
@@ -244,17 +236,9 @@ function App() {
           </div>
         </div>
       </section>
-      <section
-        className="u-align-center u-clearfix u-container-align-center u-palette-1-base u-section-3"
-        id="carousel_0f3d"
-      >
+      <section className="u-align-center u-clearfix u-container-align-center u-palette-1-base u-section-3" id="carousel_0f3d">
         <div className="u-clearfix u-sheet u-sheet-1">
-          <h2
-            className="u-align-center u-text u-text-body-alt-color u-text-default u-text-1"
-            data-animation-name="customAnimationIn"
-            data-animation-duration={1500}
-            data-animation-delay={0}
-          >
+          <h2 className="u-align-center u-text u-text-body-alt-color u-text-default u-text-1" data-animation-name="customAnimationIn" data-animation-duration={1500} data-animation-delay={0}>
             {" "}
             {t("sustain-projects-title")}
           </h2>
@@ -268,32 +252,21 @@ function App() {
                 data-animation-delay={500}
               >
                 <div className="u-container-layout u-similar-container u-valign-top u-container-layout-1">
-                  <h4 className="u-align-left u-text u-text-2">
-                    {t("cchange-title")}
-                  </h4>
+                  <h4 className="u-align-left u-text u-text-2">{t("cchange-title")}</h4>
                   <p className="u-align-left u-text u-text-3">
                     <span className="u-file-icon u-icon u-text-palette-3-base u-icon-1">
                       <img src="images/3177361-e391aca0.png" alt="" />
                     </span>{" "}
                     {t("cchange-subtitle")}
                   </p>
-                  <p className="u-align-left u-text u-text-4">
-                    {" "}
-                    {t("cchange-desc")}{" "}
-                  </p>
+                  <p className="u-align-left u-text u-text-4"> {t("cchange-desc")} </p>
                   <a
                     href="https://nicepage.cc"
                     className="u-align-left u-border-1 u-border-active-palette-1-base u-border-grey-50 u-border-hover-palette-1-base u-border-no-left u-border-no-right u-border-no-top u-bottom-left-radius-0 u-bottom-right-radius-0 u-btn u-button-style u-none u-radius-0 u-text-active-palette-1-base u-text-hover-palette-1-base u-text-palette-1-base u-top-left-radius-0 u-top-right-radius-0 u-btn-1"
                   >
                     {t("learn-more-btn")}
                   </a>
-                  <img
-                    className="u-expanded-width u-image u-image-round u-preserve-proportions u-radius-20 u-image-1"
-                    src="images/767.jpg"
-                    alt=""
-                    data-image-width={800}
-                    data-image-height={533}
-                  />
+                  <img className="u-expanded-width u-image u-image-round u-preserve-proportions u-radius-20 u-image-1" src="images/767.jpg" alt="" data-image-width={800} data-image-height={533} />
                 </div>
               </div>
               <div
@@ -303,20 +276,14 @@ function App() {
                 data-animation-delay={500}
               >
                 <div className="u-container-layout u-similar-container u-valign-top u-container-layout-2">
-                  <h4 className="u-align-left u-text u-text-5">
-                    {" "}
-                    {t("urban-title")}
-                  </h4>
+                  <h4 className="u-align-left u-text u-text-5"> {t("urban-title")}</h4>
                   <p className="u-align-left u-text u-text-6">
                     <span className="u-file-icon u-icon u-text-palette-3-base u-icon-2">
                       <img src="images/3177361-e391aca0.png" alt="" />
                     </span>{" "}
                     {t("urban-subtitle")}
                   </p>
-                  <p className="u-align-left u-text u-text-7">
-                    {" "}
-                    {t("urban-desc")}{" "}
-                  </p>
+                  <p className="u-align-left u-text u-text-7"> {t("urban-desc")} </p>
                   <a
                     href="https://nicepage.cc"
                     className="u-align-left u-border-1 u-border-active-palette-1-base u-border-grey-50 u-border-hover-palette-1-base u-border-no-left u-border-no-right u-border-no-top u-bottom-left-radius-0 u-bottom-right-radius-0 u-btn u-button-style u-none u-radius-0 u-text-active-palette-1-base u-text-hover-palette-1-base u-text-palette-1-base u-top-left-radius-0 u-top-right-radius-0 u-btn-2"
@@ -340,47 +307,30 @@ function App() {
                 data-animation-delay={500}
               >
                 <div className="u-container-layout u-similar-container u-valign-top u-container-layout-3">
-                  <h4 className="u-align-left u-text u-text-8">
-                    {" "}
-                    {t("house-title")}
-                  </h4>
+                  <h4 className="u-align-left u-text u-text-8"> {t("house-title")}</h4>
                   <p className="u-align-left u-text u-text-9">
                     <span className="u-file-icon u-icon u-text-palette-3-base u-icon-3">
                       <img src="images/3177361-e391aca0.png" alt="" />
                     </span>{" "}
                     {t("house-subtitle")}
                   </p>
-                  <p className="u-align-left u-text u-text-10">
-                    {" "}
-                    {t("house-desc")}{" "}
-                  </p>
+                  <p className="u-align-left u-text u-text-10"> {t("house-desc")} </p>
                   <a
                     href="https://nicepage.cc"
                     className="u-align-left u-border-1 u-border-active-palette-1-base u-border-grey-50 u-border-hover-palette-1-base u-border-no-left u-border-no-right u-border-no-top u-bottom-left-radius-0 u-bottom-right-radius-0 u-btn u-button-style u-none u-radius-0 u-text-active-palette-1-base u-text-hover-palette-1-base u-text-palette-1-base u-top-left-radius-0 u-top-right-radius-0 u-btn-3"
                   >
                     {t("learn-more-btn")}
                   </a>
-                  <img
-                    className="u-expanded-width u-image u-image-round u-preserve-proportions u-radius-20 u-image-3"
-                    src="images/64.jpg"
-                    alt=""
-                    data-image-width={1380}
-                    data-image-height={920}
-                  />
+                  <img className="u-expanded-width u-image u-image-round u-preserve-proportions u-radius-20 u-image-3" src="images/64.jpg" alt="" data-image-width={1380} data-image-height={920} />
                 </div>
               </div>
             </div>
           </div>
         </div>
       </section>
-      <footer
-        className="u-align-center u-clearfix u-footer u-grey-80 u-footer"
-        id="sec-d9e6"
-      >
+      <footer className="u-align-center u-clearfix u-footer u-grey-80 u-footer" id="sec-d9e6">
         <div className="u-clearfix u-sheet u-sheet-1">
-          <p className="u-small-text u-text u-text-variant u-text-1">
-            {t("contact-here")}
-          </p>
+          <p className="u-small-text u-text u-text-variant u-text-1">{t("contact-here")}</p>
           <Button type="primary" onClick={showModal}>
             Open Modal
           </Button>
@@ -443,9 +393,7 @@ function App() {
                       if (value === "Admin") {
                         return Promise.resolve();
                       } else {
-                        return Promise.reject(
-                          "Please input a valid username to authenticate the settings"
-                        );
+                        return Promise.reject("Please input a valid username to authenticate the settings");
                       }
                     },
                   },
@@ -463,9 +411,7 @@ function App() {
                       if (value === "Gitex23!") {
                         return Promise.resolve();
                       } else {
-                        return Promise.reject(
-                          "Please input a valid password to authenticate the settings"
-                        );
+                        return Promise.reject("Please input a valid password to authenticate the settings");
                       }
                     },
                   },
